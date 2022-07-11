@@ -1,0 +1,5 @@
+uvicorn
+fastapi
+pydantic[email]
+passlib[bcrypt]
+pyotp
