@@ -9,6 +9,7 @@ class Gender(str, Enum):
 
 
 class User(BaseModel):
+    username: str
     email: EmailStr
     hashed_password: str
     gender: Gender
@@ -19,6 +20,14 @@ class User(BaseModel):
     class Config:
         use_enum_values = True
 
+
+    @validator("username", pre=True, always=True)
+    def set_username(cls, v):
+        if len(v) < 3:
+            raise ValueError("min. username length is 3")
+        elif len(v) > 8:
+            raise ValueError("max. username length is 8")
+        return v.lower()
 
     @validator("gender", pre=True, always=True)
     def set_gender(cls, v):

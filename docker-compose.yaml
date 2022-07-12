@@ -6,3 +6,45 @@ services:
       dockerfile: dockerfile
     ports:
       - 8000:8000
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: fab
+      MONGO_INITDB_ROOT_PASSWORD: baf
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: fab
+      ME_CONFIG_BASICAUTH_PASSWORD: baf
+      ME_CONFIG_MONGODB_ADMINUSERNAME: fab
+      ME_CONFIG_MONGODB_ADMINPASSWORD: baf
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+
+  redis:
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+
+  redisinsight:
+    image: redislabs/redisinsight
+    environment:
+      - REDIS_PASSWORD=baf
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - 8001:8001
