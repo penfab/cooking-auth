@@ -27,6 +27,7 @@
 # UPDATES
 
    I restructered my project placeholder project (mainly databases.py and security.py)
+
    Removed my prefix_url as well as I had issues for redirects and did not like the URL
 
 # NOTES
