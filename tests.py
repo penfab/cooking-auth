@@ -1,6 +1,10 @@
 import unittest
 
-from auth.security import PasswordManager, OTPManager, JWTManager
+from api.security.password_manager import PasswordManager
+from api.security.otp_manager import OTPManager
+from api.security.jwt_manager import JWTManager
+
+from api.config import BaseConfig
 
 
 class TestPasswordManager(unittest.TestCase):
@@ -31,38 +35,36 @@ class TestOTPManager(unittest.TestCase):
 
 class TestJWTManager(unittest.TestCase):
     def test_jwt_token_OK(self):
-        secret_key = JWTManager.generate_secret_key()
+        secret_key = BaseConfig.JWT_SECRET_KEY
 
-        expected_value = {"fab": "baf"}
+        expected_value = "fab"
 
         encoded_token = JWTManager.generate_token(
-                key="fab",
-                value="baf",
-                secret_key=secret_key)
+            key="sub",
+            value="fab",
+            secret_key=secret_key)
 
         decoded_token = JWTManager.decode_token(
-                encoded_token=encoded_token,
-                secret_key=secret_key)
+            encoded_token=encoded_token,
+            secret_key=secret_key)
 
-        self.assertEqual(expected_value, decoded_token)
+        self.assertEqual(expected_value, decoded_token.get("sub"))
 
     def test_jwt_token_not_OK(self):
-        secret_key = JWTManager.generate_secret_key()
-
-        expected_value = {"hello": "world"}
+        secret_key = BaseConfig.JWT_SECRET_KEY
 
         encoded_token = JWTManager.generate_token(
-                key="hello",
-                value="world",
-                secret_key=secret_key)
+            key="sub",
+            value="fab",
+            secret_key=secret_key)
 
-        secret_key+= "1"
+        secret_key = "nottherealsecretkey"
 
         decoded_token = JWTManager.decode_token(
-                encoded_token=encoded_token,
-                secret_key=secret_key)
+            encoded_token=encoded_token,
+            secret_key=secret_key)
 
-        self.assertNotEqual(expected_value, decoded_token)
+        self.assertIsNone(decoded_token)
 
 
 if __name__ == "__main__":

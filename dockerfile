@@ -3,7 +3,6 @@ FROM python:slim
 WORKDIR /app
 
 COPY ./api /app/api
-COPY ./auth /app/auth
 
 COPY ./requirements /app/requirements
 

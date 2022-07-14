@@ -15,6 +15,7 @@ class User(BaseModel):
     gender: Gender
     cooker: bool
     enabled_2fa: bool
+    verified_otp: bool = False
     joined_on: datetime = None
 
     class Config:
@@ -33,6 +34,6 @@ class User(BaseModel):
     def set_gender(cls, v):
         return v.upper()
 
-    @validator("joined_on", always=True)
+    @validator("joined_on", pre=True, always=True)
     def set_joined_on(cls, v):
         return datetime.now()

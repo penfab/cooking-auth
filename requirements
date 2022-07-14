@@ -1,8 +1,11 @@
 uvicorn
 fastapi
-pydantic[email]
-passlib[bcrypt]
-python-jose[cryptography]
 pyotp
 pymongo
 redis
+itsdangerous
+pydantic[email]
+python-multipart
+passlib[bcrypt]
+python-jose[cryptography]
+httpx
