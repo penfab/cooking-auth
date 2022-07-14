@@ -20,9 +20,9 @@
 
 4. To execute the automated tests, from the main folder make sure the services are running by typing ```docker ps```
 
-   If not, them run again by ```docker compose up --build``` and leave the services a live
+   If not, run again ```docker compose up --build``` from the main folder and leave the services a live
 
-   Execute the automated test by typing ```python tests_automated.py``` from a new shell
+   Then, execute the automated test by typing ```python tests_automated.py``` from a new shell (active your env)
 
 # UPDATES
 
